@@ -2,14 +2,14 @@ console.clear()
 
 function primeNum(num = 100) {
   if (num > 1000) {
-    console.log("Число слишком большое. Использую значение 100")
+    console.log('Число слишком большое. Использую значение 100')
     num = 100
   }
-  if (num === 1) {
+  if (num === 1 || num === 0) {
     // alert(`Число ${num} ни простое, ни сложное.`)
     console.log(`Число ${num} ни простое, ни сложное.`)
     return
-  } else if (num <= 0)
+  } else if (num < 0)
     console.log(`Число ${num} не является натуральным. Проверим его модуль.`)
   num = Math.abs(num)
   let check = checkPrime(num)
@@ -19,8 +19,7 @@ function primeNum(num = 100) {
 
 function checkPrime(num) {
   for (let i = 2, s = Math.sqrt(num); i <= s; i++)
-    if (num % i === 0)
-      return false
+    if (num % i === 0) return false
   return num > 1
 }
 
