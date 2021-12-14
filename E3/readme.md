@@ -1,6 +1,6 @@
 # Модуль E3.8 Итоговый проект
 
-[Веб версия домашнего задания](https://skripkalisa.github.io/SF_PythonFS_Frontend/E2/index.html)
+[Веб версия домашнего задания](https://skripkalisa.github.io/SF_PythonFS_Frontend/E3/index.html)
 
 ## Задание к модулю E3
 
