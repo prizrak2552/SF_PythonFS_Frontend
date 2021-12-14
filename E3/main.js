@@ -51,13 +51,10 @@ task1.onclick = () => {
       } else if (parseInt(value) === 0 || typeof value === typeof null)
         nullType++
     })
-    let message = `'В этом массиве: \n' +
-        ${arr} +
-        '\nчётных чисел: ' +
-        ${even} +
-        '\nнечётных: ' +
-        ${odd} +
-        '\nнулевых: ' +
+    let message = `В этом массиве: \n
+        ${arr} \nчётных чисел: 
+        ${even} \nнечётных: 
+        ${odd} \nнулевых:
         ${nullType}`
     console.log(message)
     alert(message)
