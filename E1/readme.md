@@ -1,6 +1,6 @@
 # Модуль E1.8 Итоговый проект
 
-[Веб версия домашнего задания](https://skripkalisa.github.io/SF_PHPWebDev_Part3/E1/index.html)
+[Веб версия домашнего задания](https://skripkalisa.github.io/SF_PythonFS_Frontend/E1/index.html)
 
 ## Итоговый проект 1.8
 
