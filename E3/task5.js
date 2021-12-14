@@ -6,7 +6,7 @@
 
 Протестируйте функцию на любых значениях и выведите результат в консоль.
  */
-
+console.clear()
 const power = (x, n) => {
   if (x < 0 || n < 0) return false
   let result = 1
