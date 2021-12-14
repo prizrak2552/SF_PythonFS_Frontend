@@ -1,0 +1,96 @@
+html,
+body,
+* {
+  margin: 0;
+  padding: 0;
+}
+.content {
+  max-width: 70vw;
+  margin: 0 auto;
+}
+.content ul {
+  list-style-type: none;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+  color: white;
+  background-color: #101010;
+}
+
+.navigation {
+  align-items: center;
+  display: flex;
+  list-style-type: none;
+}
+
+.navigation li {
+  padding: 1rem 0;
+}
+
+.navigation li:hover {
+  background-color: gray;
+  color: #101010;
+}
+
+.navigation a {
+  align-self: center;
+  color: white;
+  padding: 0 1rem;
+  text-decoration: none;
+}
+
+.card {
+  padding: 2rem 0;
+}
+.card img {
+  float: left;
+  padding: 1rem 1rem 1rem 0;
+}
+.card img:nth-of-type(2n) {
+  float: right;
+  padding: 1rem 1rem 1rem 0;
+}
+.card h3,
+.card p {
+  padding: 0.25rem 0;
+}
+.contact {
+  text-align: center;
+  line-height: 2rem;
+}
+
+.sn-links a {
+  font-size: 3vw;
+  text-transform: uppercase;
+}
+.sn-links {
+  -moz-box-pack: center;
+  display: -moz-box;
+  display: flex;
+  justify-content: center;
+}
+.sn-links li {
+  margin: 1rem;
+  text-align: center;
+}
+.fab {
+  color: rgba(25, 25, 25, 0.85);
+}
+.fa-instagram-square:hover {
+  color: #569af3;
+}
+.fa-facebook:hover {
+  color: #006eff;
+}
+.fa-vk:hover {
+  color: #444ce0;
+}
+.fa-youtube:hover {
+  color: red;
+}
+.fa-linkedin:hover {
+  color: #0a66c2;
+}
