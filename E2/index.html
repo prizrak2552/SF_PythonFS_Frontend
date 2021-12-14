@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="Description" content="Enter your description here" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module E2</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.1/cosmo/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
+
+  <script defer src="main.js"></script>
+
+
+</head>
+
+<body>
+  <main>
+    <div class="container">
+
+      <h1>Как пользоваться</h1>
+
+      <ol>
+        <li>Откройте эту страницу в браузере, например, <em>Google Chrome</em>.</li>
+        <li>Откройте инструменты разработчика (один из вариантов сработает):</li>
+        <ul type="circle">
+          <ul>
+            <li>Нажмите клавишу <em>F12,</em></li>
+            <li>Нажмите сочетание <em>Ctrl + Shift + I.</em></li>
+            <li>Через меню настроек</li>
+          </ul>
+        </ul>
+        <li>Выберите консоль (<em>console</em>).</li>
+      </ol>
+      <h2>Но это необязательно</h2>
+      <h3>
+        <strong>Можно просто жать на кнопочки</strong>
+      </h3>
+      <h4 class="p-3 ">
+        Проверено заданий:
+        <span id="total"> 0</span>
+      </h4>
+      <div class="progress">
+        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+          aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+      </div>
+
+      <div class="accordion" id="folded">
+
+        <!--  -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading1">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+              Задание 1
+            </button>
+          </h2>
+          <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Напишите программу, которая работала бы следующим образом: в prompt вводится значение. С помощью
+                унарного
+                плюса (арифметический оператор) необходимо преобразовать его в число, затем проверить с помощью typeof,
+                принадлежит ли оно к множеству Number.
+              </p>
+              <p>
+                Если это число, то вывести в консоль чётное оно или нечётное.
+              </p>
+              <p>
+                Если передано не число, выведите: «Упс, кажется, вы ошиблись».
+              </p>
+              <p>
+                *NaN, хоть и относится к типу Number, числом не является. Добавьте отдельную проверку для этого
+                значения.
+              </p>
+              <p><button type="button" class="btn btn-primary" id="task1">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+              Задание 2
+            </button>
+          </h2>
+          <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Дана переменная Х, которая может принимать любое значение. Написать программу, которая в зависимости от
+                типа данных Х выводит в консоль сообщение вида: «X — число».
+              </p>
+              <p>
+                Опишите три случая: когда х = числу, строке или логическому типу. В других случаях выводите сообщение:
+                «Тип x не определён».
+              </p>
+
+              <p>
+                <button type="button" class="btn btn-primary" id="task2" data-type>Проверить</button>
+              <div class="form-group">
+
+                <label for="t2" class="form-label mt-4">Выберите тип данных:</label>
+
+                <select class="form-select" onchange="getX(this)" id="t2">
+                  <option class="dropdown-item" data-type="123" value="number">Числовой</option>
+                  <option class="dropdown-item" data-type=true value="boolean">Логический</option>
+                  <option class="dropdown-item" data-type="word" value="string">Строковый</option>
+                  <option class="dropdown-item" data-type1 value="undefined">Неопределённый</option>
+                </select>
+
+              </div>
+
+              </p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+              Задание 3
+            </button>
+          </h2>
+          <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Дана строка. Необходимо вывести в консоль перевёрнутый вариант. Например, "Hello" -> "olleH".
+              </p>
+
+              <p><button type="button" class="btn btn-primary" id="task3">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+              Задание 4
+            </button>
+          </h2>
+          <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Записать в переменную случайное целое число в диапазоне [0; 100]. Используйте объект Math.
+              </p>
+
+              <p><button type="button" class="btn btn-primary" id="task4">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading5">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+              Задание 5
+            </button>
+          </h2>
+          <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Дан произвольный массив. Необходимо вывести количество элементов массива, затем перебрать его и вывести
+                в консоль каждый элемент массива.
+              </p>
+
+              <p><button type="button" class="btn btn-primary" id="task5">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading6">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+              Задание 6
+            </button>
+          </h2>
+          <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Дан массив. Проверить, одинаковые ли элементы в массиве и вывести результат true или false в консоль.
+                Речь идёт не о двух рядом стоящих одинаковых элементах, а обо всех. Проверить, все ли элементы в массиве
+                одинаковые.
+              </p>
+              <p><button type="button" class="btn btn-primary" id="task6">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading7">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+              Задание 7
+            </button>
+          </h2>
+          <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Дан массив. Нужно вывести в консоль количество чётных и нечётных элементов в массиве. Если в массиве
+                есть нулевой элемент, то он учитывается и выводится отдельно.
+              </p>
+              <p>
+                При выполнении задания необходимо учесть, что массив может содержать не только числа, но и, например,
+                знаки, null и так далее.
+              </p>
+              <p><button type="button" class="btn btn-primary" id="task7">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading8">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+              Задание 8
+            </button>
+          </h2>
+          <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#folded">
+            <div class="accordion-body">
+              <p>
+                Создайте произвольный массив Map. Получите его ключи и выведите в консоль все значения в виде «Ключ — Х,
+                значение — Y».
+
+              </p>
+              <p>
+                Используйте шаблонные строки.
+              </p>
+              <p><button type="button" class="btn btn-primary" id="task8">Проверить</button></p>
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </main>
+  <footer class="container ">
+    <div class="mx-auto text-center p-3">
+      Developed by
+      <a href="https://github.com/skripkalisa">
+        skripkalisa
+      </a> &nbsp;| Введение в JavaScript (c) <span id="year"></span>
+    </div>
+
+  </footer>
+</body>
+
+</html>
