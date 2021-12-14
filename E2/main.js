@@ -169,7 +169,7 @@ task6.onclick = () => {
 
 task7.onclick = () => {
   const string = prompt(
-    'Введите несколько чисел. Посчитаем чётные и нечётные. И нули.'
+    'Введите несколько чисел через пробел. Посчитаем чётные и нечётные. И нули.'
   )
   const arr = string.split(' ')
   let even = 0
@@ -180,27 +180,17 @@ task7.onclick = () => {
       parseInt(value) % 2 === 0 ? even++ : odd++
     } else if (parseInt(value) === 0 || typeof value === typeof null) nullType++
   })
-
-  alert(
+  let message =
     'В этом массиве: \n' +
-      arr +
-      '\nчётных чисел: ' +
-      even +
-      '\nнечётных: ' +
-      odd +
-      '\nнулевых: ' +
-      nullType
-  )
-  console.log(
-    'В этом массиве: \n' +
-      arr +
-      '\nчётных чисел: ' +
-      even +
-      '\nнечётных: ' +
-      odd +
-      '\nнулевых: ' +
-      nullType
-  )
+    arr +
+    '\nчётных чисел: ' +
+    even +
+    '\nнечётных: ' +
+    odd +
+    '\nнулевых: ' +
+    nullType
+  alert(message)
+  console.log(message)
 
   task7.className = btn
   task7.innerText = done
@@ -226,69 +216,6 @@ task8.onclick = () => {
   task8.innerText = done
   t[7] = 8
   setProgress()
-}
-
-function countEvenOddNull(arr) {
-  let even = 0
-  let odd = 0
-  let nullType = 0
-  arr.forEach(value => {
-    if (!isNaN(parseFloat(value)) && parseInt(value) !== 0) {
-      parseInt(value) % 2 === 0 ? even++ : odd++
-    } else if (parseInt(value) === 0 || typeof value === typeof null) nullType++
-  })
-
-  alert(
-    'В этом массиве: \n' +
-      arr +
-      '\nчётных чисел: ' +
-      even +
-      '\nнечётных: ' +
-      odd +
-      '\nнулевых: ' +
-      nullType
-  )
-  console.log(
-    'В этом массиве: \n' +
-      arr +
-      '\nчётных чисел: ' +
-      even +
-      '\nнечётных: ' +
-      odd +
-      '\nнулевых: ' +
-      nullType
-  )
-}
-
-function primeNum(num = 100, limit = 1000) {
-  if (num > limit) {
-    console.log('Число слишком большое. Использую значение ' + limit)
-    num = limit
-  }
-  if (num === 1) {
-    alert(`Число ${num} ни простое, ни сложное.`)
-    console.log(`Число ${num} ни простое, ни сложное.`)
-    return
-  } else if (num <= 0) {
-    alert(`Число ${num} не является натуральным. Проверим его модуль.`)
-    console.log(`Число ${num} не является натуральным. Проверим его модуль.`)
-  }
-  num = Math.abs(num)
-
-  let check = checkPrime(num)
-  if (check) {
-    alert(`Число ${num} простое.`)
-    console.log(`Число ${num} простое.`)
-  } else {
-    alert(`Число ${num} составное.`)
-    console.log(`Число ${num} составное.`)
-  }
-}
-
-function checkPrime(num) {
-  for (let i = 2, s = Math.sqrt(num); i <= s; i++)
-    if (num % i === 0) return false
-  return num > 1
 }
 
 function currentYear() {
