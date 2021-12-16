@@ -1,8 +1,8 @@
-# Модуль E3.8 Итоговый проект
+# Модуль E6.8 Итоговый проект
 
-[Веб версия домашнего задания](https://skripkalisa.github.io/SF_PythonFS_Frontend/E3/index.html)
+[Веб версия домашнего задания](https://skripkalisa.github.io/SF_PythonFS_Frontend/E6/index.html)
 
-## Задание к модулю E3
+## Задание к модулю E6
 
 В качестве итогового проекта вам необходимо разработать проект, состоящий из клиента на JavaScript и бэкенда на Django Rest Framework.
 
