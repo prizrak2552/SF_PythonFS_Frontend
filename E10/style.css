@@ -85,7 +85,7 @@ body {
   color: var(--dark-grey);
 }
 .resume__header {
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
 .social {
   padding: 0.5rem 0;
@@ -176,7 +176,7 @@ body {
 
 .cv__header {
   margin: 0.5rem 0;
-  font-size: 3ch;
+  font-size: 2.75ch;
 }
 .cv__subheader {
   font-size: 2ch;
@@ -375,12 +375,20 @@ img {
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
 @media screen and (max-width: 600px) {
+  .main-block {
+    max-width: 95vw;
+  }
   .resume__header {
     text-align: center;
+  }
+  .about-me::before,
+  .about-me::after {
+    left: calc(50% - 4.5rem);
   }
   /* Place the timelime to the left */
   .timeline::after {
     left: 3rem;
+    margin-top: 6rem;
   }
 
   /* Full-width containers */
@@ -402,7 +410,7 @@ img {
   /* Make sure all circles are at the same spot */
   .left::after,
   .right::after {
-    left: 0.25rem;
+    left: 0.2rem;
   }
 
   /* Make all right containers behave like the left ones */
