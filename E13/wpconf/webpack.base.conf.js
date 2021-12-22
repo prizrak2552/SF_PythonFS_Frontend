@@ -5,32 +5,29 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const StylelintPlugin = require('stylelint-webpack-plugin')
 
 const path = require('path')
-const fs = require('fs')
+
 const PATHS = {
-  src: path.join(__dirname, './src/'),
-  dist: path.join(__dirname, './dist/'),
+  src: path.join(__dirname, '../src/'),
+  dist: path.join(__dirname, '../dist/'),
   build: path.join(__dirname, './build/'),
   assets: 'assets/',
 }
 const PAGES_DIR = `${PATHS.src}/pug/`
-const rootPath = './src/'
-const output = 'main'
+
 module.exports = {
-  entry: `${rootPath}scripts/index.ts`,
-  devtool: 'inline-source-map',
-  mode: 'development',
-  devServer: {
-    static: PATHS.dist,
-    port: 3001,
-    hot: true,
-    open: true,
+  externals: {
+    paths: PATHS,
   },
-  stats: 'summary',
+  entry: {
+    app: `${PATHS.src}scripts/index.ts`,
+  },
   output: {
-    filename: `${output}.js`,
+    filename: 'js/[name].[hash].js',
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash].css',
+    }),
     new HtmlWebpackPlugin({ template: `${PAGES_DIR}index.pug` }),
     new TerserWebpackPlugin(),
     new OptimizeCSSAssetsPlugin(),
@@ -61,7 +58,6 @@ module.exports = {
       {
         test: /\.styl$/,
         use: [
-          // 'style-loader',
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -74,13 +70,6 @@ module.exports = {
             loader: 'stylus-loader',
             options: { sourceMap: true },
           },
-          // {
-          //   loader: 'postcss-loader',
-          //   options: {
-          //     sourceMap: true,
-          //     config: { path: PATHS.build },
-          //   },
-          // },
         ],
       },
       {

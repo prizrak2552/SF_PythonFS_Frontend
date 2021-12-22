@@ -4,8 +4,11 @@
   "description": "FPW_E13",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server  --config webpack.config.js",
-    "build": "webpack",
+    "dev-json": "concurrently --kill-others \"yarn json-server\" \"yarn dev\"",
+    "dev": "webpack-dev-server  --config wpconf/webpack.dev.conf.js",
+    "json-server": "json-server --watch ./src/assets/database.json --port 3000",
+    "build": "webpack --config wpconf/webpack.prod.conf.js",
+    "lint": "eslint . src wpconf",
     "prepare": "husky install"
   },
   "repository": {
@@ -17,6 +20,8 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^6.5.1",
     "css-loader": "^6.5.1",
     "eslint": "^8.5.0",
     "html-webpack-plugin": "^5.5.0",
