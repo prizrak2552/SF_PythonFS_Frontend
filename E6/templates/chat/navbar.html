@@ -1,0 +1,20 @@
+{% if request.user.is_authenticated %}
+<nav class="blue lighten-3">
+  <div class="nav-wrapper container">
+    <a href="{% url 'chats' %}" class="brand-logo">Chat</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="{% url 'profile' %}">{{ request.user.username }}</a></li>
+      <li><a href="{% url 'logout' %}"><i class="material-icons">power_settings_new</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+{% else %}
+
+<div class="section blue lighten-3">
+  <div class="container white-text center-align text">
+    <h2>Chatroom</h2>
+    <p>Basic messenger using Django Rest Framework and JavaScript</p>
+  </div>
+</div>
+{% endif %}
