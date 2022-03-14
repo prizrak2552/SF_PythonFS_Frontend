@@ -66,7 +66,7 @@
     event.preventDefault()
     var message = document.querySelector('#id_message')
     send('{{ request.user.username }}', '{{ receiver.username }}', message.value)
-    message.val('')
+    message.value = ''
   })
 
 </script>

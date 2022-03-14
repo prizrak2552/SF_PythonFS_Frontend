@@ -10,6 +10,9 @@ from chat.models import Message
 from chat.forms import SignUpForm
 from chat.serializers import MessageSerializer  # , UserSerializer
 from .forms import UpdateUserForm, UpdateProfileForm
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 
 def index(request):
@@ -28,7 +31,8 @@ def index(request):
 
 
 @csrf_exempt
-def message_list(request, sender=None, receiver=None):
+# def message_list(request, sender=None, receiver=None):
+def message_list(request, sender=2, receiver=1):
     """
     List all required messages, or create a new message.
     """
@@ -122,3 +126,8 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+class MessageListCreate(generics.ListCreateAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
