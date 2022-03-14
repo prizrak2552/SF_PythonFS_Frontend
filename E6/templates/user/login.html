@@ -7,16 +7,12 @@
 
 {% block content %}
 
-
-
-
-{% block form %}
 <div class="mx-auto py-5 col-md-8 col-lg-6 col-sm-12">
-
 
   <form id="login-form" method="post">
     {% csrf_token %}
     <fieldset>
+
       <legend>Login</legend>
 
       <div class="form-group ">
@@ -24,12 +20,14 @@
         <input type="text" class="form-control" name="username" id="id_username" aria-describedby="username"
           placeholder="Your login">
       </div>
+
       <div class="form-group">
         <label for="password" class="form-label mt-4">Password</label>
         <input type="password" class="form-control" name="password" id="id_password" placeholder="Password">
         <small id="disclaimer" class="form-text text-muted">We'll never share your personal data with anyone
           else.</small>
       </div>
+
       <div class="form-group d-flex justify-content-between">
         <button type="submit" class="btn btn-primary">Login</button>
         <a href="{% url 'register' %}">
@@ -38,14 +36,10 @@
           </button>
         </a>
       </div>
+
     </fieldset>
   </form>
 
-
 </div>
-
-{% endblock %}
-
-
 
 {% endblock %}

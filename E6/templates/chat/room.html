@@ -1,4 +1,3 @@
-<!-- chat/templates/chat/room.html -->
 {% extends 'chat/index.html' %}
 {% load static %}
 {% block title %}Room Page{% endblock title %}
@@ -6,16 +5,15 @@
 <script defer type="text/javascript" src="{% static 'js/room.js' %}"></script>
 {% endblock script %}
 
-
 {% block content %}
+
 <h1 class="text-center  py-5">
   Room Page
 </h1>
-<div class="col-lg-6 col-md8 col sm-12 py-4 mx-auto">
 
+<div class="col-lg-6 col-md8 col sm-12 py-4 mx-auto">
   <section class="row">
-    <div class="col-sm-12 col-md-6 col-lg-4">
-    </div>
+
     <h3>Select Users</h3>
 
     <ul class="list-group">
@@ -28,22 +26,20 @@
         <span class="badge bg-primary rounded-pill">
           Online
         </span>
-
-
         {% else %}
         <span class="badge bg-light rounded-pill">
           Offline
-
         </span>
         {% endif %}
+
       </li>
       {% endfor %}
     </ul>
+
   </section>
 
 
   <form id="new-chat" class="form-group method=" POST">
-    <!-- {#% block hide %}hide{#% endblock %}"  -->
     {% csrf_token %}
     <div class="form-group">
       <label class="form-label mt-4">Create a New Chat</label>
@@ -55,7 +51,6 @@
         </div>
       </div>
     </div>
-
   </form>
 </div>
 

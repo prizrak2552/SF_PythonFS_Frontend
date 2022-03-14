@@ -10,10 +10,12 @@
 <h1 class="py-4 text-center">
   Chat Page
 </h1>
+
 {{ room_name|json_script:"room-name" }}
 {{ room.id|json_script:"room-id" }}
 {{ user.username|json_script:"user" }}
 {{ user.id|json_script:"user-id" }}
+
 <div class="section py-5">
   <div class="row">
 
@@ -67,7 +69,6 @@
 </div>
 
 <div class="py-5">
-
   <h3 class="my-5">
     Create a new room
   </h3>

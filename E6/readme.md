@@ -62,3 +62,5 @@
 ![Create Room page](./pix/E6.5.png 'Create Room page')
 
 ![Chats view](./pix/E6.6.png 'Chats view')
+
+![API view](./pix/E6.7.png 'API view')
