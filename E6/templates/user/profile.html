@@ -5,10 +5,10 @@
 {%endblock styles %}
 {% block content %}
 
-<div class="profile-view d-flex  justify-content-evenly">
-  <section class=" profile">
+<div class="profile-view d-flex justify-content-evenly">
+  <section class="profile col-md-6 col-sm-12">
     <div class="my-3 p-3">
-      <h3>This is the profile page for {{user.username}}</h3>
+      <h3 class="text-center text-md-start">This is the profile page for {{user.username}}</h3>
 
       {% if user_form.errors %}
       <div class="alert alert-danger alert-dismissible" role="alert">
@@ -49,21 +49,21 @@
       </div>
     </div>
   </section>
-  <section class="chats">
+  <section class="chats col-md-4 col-sm-12">
     <div class="my-3 p-3">
-      <h3>
+      <h3 class="text-center">
         Your Chats
       </h3>
-      <div class="">
+      <div class="d-flex justify-content-center ">
         <ol>
           {% for chat in chats %}
           <li>
             <a href="{%url 'chat'  chat.room_name %}">
               {{chat.room_name | capfirst}}
             </a> with:
-            <div class="chats ">
+            <div class="chats">
               {% for user in chat.members.all %}
-              <div class="chat-members ">
+              <div class="chat-members">
                 <div class="avatar">
                   <div class="status">
                     {% if user.profile.is_online %}
@@ -80,7 +80,7 @@
                   </div>
                 </div>
                 <img src="{% static  user.profile.avatar.url %}" class="avatar circle  ">
-                <span class="chat-member col  s4">
+                <span class="chat-member">
                   {{user}}
                 </span>
               </div>
