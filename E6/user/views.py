@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http.response import  HttpResponse
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from .forms import UpdateUserForm, UpdateProfileForm, SignUpForm
 # from chat.forms import SignUpForm
@@ -27,7 +27,7 @@ def index(request):
         user.profile.save()
         return redirect('main')
     if request.method == 'GET':
-        return render(request, 'chat/login.html', {})
+        return render(request, 'user/login.html', {})
     if request.method == "POST":
         username, password = request.POST['username'], request.POST['password']
         user = authenticate(username=username, password=password)
@@ -47,7 +47,7 @@ def register_view(request):
     """
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        print(form)
+
         if form.is_valid():
             user = form.save(commit=False)
             username = form.cleaned_data['username']
@@ -75,8 +75,6 @@ def logoutUser(request):
 
 @login_required
 def profile(request):
-    # return render(request, 'users/profile.html')
-
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(

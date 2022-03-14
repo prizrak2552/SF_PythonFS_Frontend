@@ -26,20 +26,17 @@ users.forEach(user => {
 })
 
 function selectUser(user) {
-  console.log(user.classList)
   user.classList.toggle('selected')
-  // const userId = parseInt(user.id)
   const userId = user.id
   if (chatMembers.has(userId)) chatMembers.delete(userId)
   else chatMembers.add(userId)
-  console.log('user.id', userId)
-  console.log('chatMembers', chatMembers)
 }
 
 const formRoom = document.querySelector('#new-chat')
 formRoom.addEventListener('submit', e => {
   e.preventDefault()
-  const room = document.querySelector('#room-name-input').value
+  let room = document.querySelector('#room-name-input').value
+  room = room.replaceAll(' ', '-')
   if (room !== '') createRoom(room)
 })
 
@@ -52,7 +49,7 @@ function createRoom(room) {
   }
   const formData = new FormData()
   formData.append(members, members)
-  // "chatMembers": ${chatMembers}
+
   console.log('members', members)
   console.log(window.location.pathname, room)
   const url = `${window.location.pathname}`
@@ -68,11 +65,10 @@ function createRoom(room) {
     },
     credentials: 'same-origin',
     body: JSON.stringify(data),
+  }).then(response => {
+    console.log(response)
+    setTimeout(redirect(room), 500)
   })
-    .then(response => {
-      console.log(response)
-    })
-    .then((window.location.pathname = `${url}${room}/`))
 
   //  window.location.pathname = `/chat/${roomName}/${chat}/`
   // const xhr = new XMLHttpRequest()
@@ -84,34 +80,8 @@ function createRoom(room) {
   // xhr.send()
   // window.location.pathname = '/chat/' + roomName + '/'
 }
-// const chatSocket = new WebSocket(
-//   `ws://${window.location.host}/ws/chat/${roomName}/?token=${token}`
-// )
 
-// chatSocket.onmessage = function (e) {
-//   const data = JSON.parse(e.data)
-//   document.querySelector('#chat-log').value += data.message + '\n'
-// }
-
-// chatSocket.onclose = function (e) {
-//   console.error('Chat socket closed unexpectedly')
-// }
-
-// document.querySelector('#chat-message-input').focus()
-// document.querySelector('#chat-message-input').onkeyup = function (e) {
-//   if (e.keyCode === 13) {
-//     // enter, return
-//     document.querySelector('#chat-message-submit').click()
-//   }
-// }
-
-// document.querySelector('#chat-message-submit').onclick = function (e) {
-//   const messageInputDom = document.querySelector('#chat-message-input')
-//   const message = messageInputDom.value
-//   chatSocket.send(
-//     JSON.stringify({
-//       message: message,
-//     })
-//   )
-//   messageInputDom.value = ''
-// }
+function redirect(room) {
+  const url = window.location.pathname
+  window.location.pathname = `${url}${room}/`
+}

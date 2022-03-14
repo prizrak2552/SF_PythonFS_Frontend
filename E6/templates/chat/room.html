@@ -8,12 +8,14 @@
 
 
 {% block content %}
-<h1>
+<h1 class="text-center  py-5">
   Room Page
 </h1>
+<div class="col-lg-6 col-md8 col sm-12 py-4 mx-auto">
 
-<section class="row">
-  <div class="col-sm-12 col-md-6 col-lg-4">
+  <section class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+    </div>
     <h3>Select Users</h3>
 
     <ul class="list-group">
@@ -37,25 +39,25 @@
       </li>
       {% endfor %}
     </ul>
-  </div>
-</section>
+  </section>
 
 
-<form id="new-chat" class="form-group method=" POST">
-  <!-- {#% block hide %}hide{#% endblock %}"  -->
-  {% csrf_token %}
-  <div class="form-group">
-    <label class="form-label mt-4">Create a New Chat</label>
+  <form id="new-chat" class="form-group method=" POST">
+    <!-- {#% block hide %}hide{#% endblock %}"  -->
+    {% csrf_token %}
     <div class="form-group">
-      <div class="input-group mb-3">
-        <input type="text" id="room-name-input" class="form-control" placeholder="Chat Name" aria-label="Chat Name"
-          aria-describedby="room-name-submit">
-        <button class="btn btn-primary" type="submit" id="room-name-submit">Button</button>
+      <label class="form-label mt-4">Create a New Chat</label>
+      <div class="form-group">
+        <div class="input-group mb-3">
+          <input type="text" id="room-name-input" class="form-control" placeholder="Chat Name" aria-label="Chat Name"
+            aria-describedby="room-name-submit">
+          <button class="btn btn-primary" type="submit" id="room-name-submit">Create</button>
+        </div>
       </div>
     </div>
-  </div>
 
-</form>
+  </form>
+</div>
 
 {{ room_name|json_script:"room-name" }}
 {%endblock  %}

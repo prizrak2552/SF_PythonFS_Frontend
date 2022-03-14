@@ -8,11 +8,10 @@
 {%endblock script %}
 
 {% block content %}
-<h1>
+
+<h1 class="py-4 text-center">
   Chat Page
 </h1>
-
-
 {{ room_name|json_script:"room-name" }}
 {{ room.id|json_script:"room-id" }}
 {{ user.username|json_script:"user" }}
@@ -22,6 +21,7 @@
 
     <div class="col-3">
       <div class="card p-3 ">
+        <h4>Your Chats</h4>
         <ol>
 
           {% for room in rooms %}
@@ -61,8 +61,8 @@
     </div>
 
     <div class="col-9">
-      <div class="card p-3 ">
-        <div class="" style="height: 75vh;">
+      <div class="card p-3">
+        <div class="" style="height: 50vh;">
           {% block messages %}
           {% include 'chat/messages.html'%}
           {% endblock %}
@@ -71,13 +71,16 @@
     </div>
   </div>
 </div>
-<!-- {#% block hide %}hide{#% endblock %}"  -->
-<h3 class="my-5">
-  Create a new room
-</h3>
-<a href="{%url 'room'%}">
-  <div class="d-grid gap-2">
-    <button id="create-room" class="btn btn-lg btn-primary" type="submit">Create</button>
-  </div>
-</a>
+
+<div class="py-5">
+
+  <h3 class="my-5">
+    Create a new room
+  </h3>
+  <a href="{%url 'room'%}">
+    <div class="d-grid gap-2">
+      <button id="create-room" class="btn btn-lg btn-primary" type="submit">Create</button>
+    </div>
+  </a>
+</div>
 {% endblock %}

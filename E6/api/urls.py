@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('messages/', views.MessageListCreate.as_view(), name='api_messages'),
     path('room/', views.RoomView.as_view(), name='api_room'),
-    path('chat/', views.ChatView.as_view(), name='api_chat'),
     path('schema/',  get_schema_view(title='API Schema',
          description='API for chats'), name='api_schema'),
     path('docs/', TemplateView.as_view(

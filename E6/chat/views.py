@@ -6,7 +6,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from api.models import Message, Room, Chat
+from api.models import Message, Room
 from api.serializers import MessageSerializer
 
 
@@ -27,20 +27,6 @@ def get_room(request, room_name):
         room = Room.objects.get(room_name=room_name)
 
     return room
-
-
-def get_chat(request, room_name, chat_name, members):
-    users = get_users(members)
-
-    room = Room.objects.get(room_name=room_name)
-    room.members.set(users)
-    if not Chat.objects.filter(chat_name=chat_name).exists():
-        chat = Chat.objects.create(
-            chat_name=chat_name, room=room)
-        chat.members.set(users)
-    else:
-        chat = Chat.objects.get(chat_name=chat_name)
-    return chat
 
 
 def main_view(request, room_name='common'):
@@ -94,16 +80,14 @@ def room_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
         room_name = data.get("room_name")
-        print(f'room_name: {room_name}')
         members = data.get("members")
         print(f'members: {members}')
         room = get_room(request, room_name)
         users = get_users(members)
         room.members.set(users)
         room.save()
-        print(f'members: {members}')
 
-        return render(request, "chat/room.html",
+        return render(request, "chat/chat.html",
                       {
                           'users': users,
                           'room': room,

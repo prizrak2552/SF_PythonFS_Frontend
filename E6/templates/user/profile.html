@@ -4,9 +4,8 @@
 {% block styles %}
 {%endblock styles %}
 {% block content %}
+
 <div class="profile-view d-flex  justify-content-evenly">
-
-
   <section class=" profile">
     <div class="my-3 p-3">
       <h3>This is the profile page for {{user.username}}</h3>
@@ -50,22 +49,14 @@
       </div>
     </div>
   </section>
-  <section class="  chats">
+  <section class="chats">
     <div class="my-3 p-3">
-
-
       <h3>
         Your Chats
       </h3>
-
-
       <div class="">
-
-
         <ol>
-
           {% for chat in chats %}
-
           <li>
             <a href="{%url 'chat'  chat.room_name %}">
               {{chat.room_name | capfirst}}
@@ -94,15 +85,11 @@
                 </span>
               </div>
               {% endfor %}
-
             </div>
           </li>
-
           {% endfor %}
         </ol>
       </div>
-
-
     </div>
   </section>
 </div>

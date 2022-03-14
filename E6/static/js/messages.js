@@ -107,7 +107,7 @@ function appendMessage(resp) {
   msgBox.appendChild(msgBody)
   board.appendChild(msgBox)
   // board.scrollTop = board.scrollHeight
-  scrolltoend()
+  // scrolltoend()
 }
 board.scrollTop = board.scrollHeight
-scrolltoend()
+// scrolltoend()

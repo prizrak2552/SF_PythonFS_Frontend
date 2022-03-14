@@ -11,8 +11,3 @@ class MessageListCreate(generics.ListCreateAPIView):
 class RoomView(generics.ListCreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-
-
-class ChatView(generics.ListCreateAPIView):
-    queryset = Chat.objects.all()
-    serializer_class = ChatSerializer
