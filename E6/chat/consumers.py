@@ -1,4 +1,5 @@
 # chat/consumers.py
+from datetime import datetime
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -28,7 +29,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def create_chat(self, sender, msg, room):
         new_msg = Message.objects.create(
             message=msg, sender_id=sender, room=room)
-        new_msg.save()
+        # new_msg.save()
         return new_msg
 
     async def connect(self):
@@ -59,17 +60,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         room = await self.get_room(room_name)
         room_owner = await self.get_room_owner(room_name)
         room_members = await self.get_room_members(room_name)
-        new_msg = await self.create_chat(sender, message, room)
-        print(f'new_msg: {new_msg}')
+        # new_msg = await self.create_chat(sender, message, room)
+        print(f'new_msg: {message}')
 
         # It is necessary to await creation of messages
         await self.send(text_data=json.dumps({
-            'message': new_msg.message,
-            'time': new_msg.timestamp.strftime("%B %d, %Y, %I:%M %p"),
+            'message': message,
+            'time': datetime.now().strftime("%B %d, %Y, %I:%M %p"),
             'sender_id': sender,
             'room_name': room_name,
             'room_id': room.id,
             'room_owner_id': room_owner.id,
             'room_members': room_members,
         }))
-

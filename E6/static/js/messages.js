@@ -39,8 +39,28 @@ const roomId = JSON.parse(document.querySelector('#room-id').textContent)
 function ws(message) {
   const token = getCookie('csrftoken')
   wsUrl = `ws://${window.location.host}/ws/chat/${roomName}/?token=${token}`
+  url = `/api/messages/`
   let socket = new WebSocket(wsUrl)
+  const data = {
+    message: message,
+    sender: userId,
+    room: roomId,
+  }
 
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]')
+        .value,
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(data),
+  }).then(response => {
+    console.log(response)
+    // setTimeout(redirect(room), 500)
+  })
   socket.onopen = function (e) {
     console.log('[open] Connection established')
     console.log('Sending to server')
