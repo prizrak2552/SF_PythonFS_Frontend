@@ -6,7 +6,7 @@ chatBox.addEventListener('submit', e => {
   const messageInp = document.querySelector('#message')
   let message = messageInp.value
   messageInp.value = ''
-  ws(message)
+  if (message && message !== '') ws(message)
   message = ''
 })
 
@@ -20,33 +20,69 @@ function getCookie(name) {
   )
   return matches ? decodeURIComponent(matches[1]) : undefined
 }
-function scrolltoend() {
-  const board = document.getElementById('board')
-  board.animate(
-    {
-      scrollTop: board.scrollHeight,
-    },
-    800
-  )
-}
 const board = document.querySelector('#board')
+function scrolltoend() {
+  board.scrollTo({ top: board.scrollHeight, behavior: 'smooth' })
+}
 
 const roomName = JSON.parse(document.getElementById('room-name').textContent)
 const user = JSON.parse(document.querySelector('#user').textContent)
 const userId = JSON.parse(document.querySelector('#user-id').textContent)
 const roomId = JSON.parse(document.querySelector('#room-id').textContent)
 
+const token = getCookie('csrftoken')
+wsUrl = `ws://${window.location.host}/ws/chat/${roomName.toLowerCase()}/`
+
+let socket = new WebSocket(wsUrl)
+
+socket.onopen = function (e) {
+  console.log('[open] Connection established')
+  console.log('Sending to server')
+
+  console.log(e)
+}
+
+socket.onmessage = function (event) {
+  const resp = JSON.parse(event.data)
+  console.log(`[message] Data received from server: ${event.data}`)
+  const url = `http://${window.location.host}/api/messages/`
+  // слишком сложно парсить данные о пользователе просто по данным сообщения.
+  // гораздо удобнее предоставить эти данные сразу через Джанго ченнелс
+  // запрос к последнему сообщению через апи здесь больше для примера
+  fetch(url)
+    .then(response => response.json())
+    .then(data => console.log(data[data.length - 1]))
+
+  appendMessage(resp)
+}
+
+socket.onclose = function (event) {
+  if (event.wasClean) {
+    console.log(
+      `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+    )
+  } else {
+    // e.g. server process killed or network down
+    // event.code is usually 1006 in this case
+    console.log('[close] Connection died')
+  }
+}
+
+socket.onerror = function (error) {
+  console.log(`[error] ${error.message}`)
+}
+
 function ws(message) {
-  const token = getCookie('csrftoken')
-  wsUrl = `ws://${window.location.host}/ws/chat/${roomName}/?token=${token}`
+  console.log('Message Submitted')
   url = `/api/messages/`
-  let socket = new WebSocket(wsUrl)
   const data = {
     message: message,
     sender: userId,
     room: roomId,
   }
 
+  console.log(message)
+  socket.send(JSON.stringify(data))
   fetch(url, {
     method: 'POST',
     headers: {
@@ -57,46 +93,7 @@ function ws(message) {
     },
     credentials: 'same-origin',
     body: JSON.stringify(data),
-  }).then(response => {
-    console.log(response)
-    // setTimeout(redirect(room), 500)
   })
-  socket.onopen = function (e) {
-    console.log('[open] Connection established')
-    console.log('Sending to server')
-
-    if (message !== '')
-      socket.send(
-        JSON.stringify({
-          message: message,
-          // is_read: false,
-          sender: userId,
-          room: roomId,
-        })
-      )
-  }
-
-  socket.onmessage = function (event) {
-    const resp = JSON.parse(event.data)
-    console.log(`[message] Data received from server: ${event.data}`)
-    appendMessage(resp)
-  }
-
-  socket.onclose = function (event) {
-    if (event.wasClean) {
-      console.log(
-        `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
-      )
-    } else {
-      // e.g. server process killed or network down
-      // event.code is usually 1006 in this case
-      console.log('[close] Connection died')
-    }
-  }
-
-  socket.onerror = function (error) {
-    console.log(`[error] ${error.message}`)
-  }
 }
 
 function appendMessage(resp) {
@@ -108,7 +105,8 @@ function appendMessage(resp) {
     : msgBox.classList.add('align-self-start', 'bg-light')
   const rm = resp.room_members
 
-  const avatar = document.getElementById(`${resp.sender_id}`).src
+  const avatar = document.getElementById(`${resp.sender_id}`).firstElementChild
+    .src
 
   const msg = `
     <div class="card-header">
@@ -126,8 +124,8 @@ function appendMessage(resp) {
   msgBody.innerHTML = msg
   msgBox.appendChild(msgBody)
   board.appendChild(msgBox)
-  // board.scrollTop = board.scrollHeight
-  // scrolltoend()
+
+  scrolltoend()
 }
-board.scrollTop = board.scrollHeight
-// scrolltoend()
+
+scrolltoend()

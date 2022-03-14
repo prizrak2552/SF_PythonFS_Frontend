@@ -72,6 +72,7 @@ def message_list(request, sender=None, receiver=None):
         return JsonResponse(serializer.errors, status=400)
 
 
+@csrf_exempt
 def room_view(request):
     print()
     print('room_view')
@@ -84,6 +85,7 @@ def room_view(request):
         print(f'members: {members}')
         room = get_room(request, room_name)
         users = get_users(members)
+        users.add(room.owner)
         room.members.set(users)
         room.save()
 

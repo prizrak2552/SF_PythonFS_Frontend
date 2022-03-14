@@ -25,14 +25,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         return room_members
 
-    @database_sync_to_async
-    def create_chat(self, sender, msg, room):
-        new_msg = Message.objects.create(
-            message=msg, sender_id=sender, room=room)
-        # new_msg.save()
-        return new_msg
+    #
+    # use this to create message with consumers, that is with Websocket
+    #
+    # @database_sync_to_async
+    # def create_chat(self, sender, msg, room):
+    #     print(f'create_chat: {sender}')
+    #     print()
+    #     new_msg = Message.objects.create(
+    #         message=msg, sender_id=sender, room=room)
+    #     new_msg.save()
+    #     return new_msg
 
     async def connect(self):
+        print(f'connect: ')
+        print()
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
@@ -42,6 +49,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data):
+        print(f'receive: {text_data}')
+        print()
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         sender = text_data_json['sender']
@@ -52,7 +61,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         })
 
     async def chat_message(self, event):
-        print(f'event: {event}')
+        print(f'chat_message - event: {event}')
+        print()
         message = event['message']
         sender = event['sender']
         room_name = self.scope['url_route']['kwargs']['room_name']
@@ -60,6 +70,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         room = await self.get_room(room_name)
         room_owner = await self.get_room_owner(room_name)
         room_members = await self.get_room_members(room_name)
+        # To create message with consumers uncomment this and
         # new_msg = await self.create_chat(sender, message, room)
         print(f'new_msg: {message}')
 

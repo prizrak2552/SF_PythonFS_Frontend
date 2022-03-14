@@ -36,7 +36,7 @@ const formRoom = document.querySelector('#new-chat')
 formRoom.addEventListener('submit', e => {
   e.preventDefault()
   let room = document.querySelector('#room-name-input').value
-  room = room.replaceAll(' ', '-')
+  room = room.replaceAll(' ', '_')
   if (room !== '') createRoom(room)
 })
 
@@ -53,7 +53,6 @@ function createRoom(room) {
   console.log('members', members)
   console.log(window.location.pathname, room)
   const url = `${window.location.pathname}`
-  // const url = `${window.location.pathname}${room}/`
 
   fetch(url, {
     method: 'POST',
@@ -69,16 +68,6 @@ function createRoom(room) {
     console.log(response)
     setTimeout(redirect(room), 500)
   })
-
-  //  window.location.pathname = `/chat/${roomName}/${chat}/`
-  // const xhr = new XMLHttpRequest()
-  // xhr.open('POST', url, false)
-  // // xhr.setRequestHeader('Accept', 'application/json')
-  // // xhr.setRequestHeader('Content-Type', 'application/json')
-  // xhr.send(members)
-  // xhr.open('GET', url)
-  // xhr.send()
-  // window.location.pathname = '/chat/' + roomName + '/'
 }
 
 function redirect(room) {
