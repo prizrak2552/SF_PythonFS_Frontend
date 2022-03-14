@@ -1,0 +1,110 @@
+{% extends 'chat/index.html' %}
+{% load static %}
+{% block title %}Profile Page{% endblock title %}
+{% block styles %}
+{%endblock styles %}
+{% block content %}
+<div class="profile-view d-flex  justify-content-evenly">
+
+
+  <section class=" profile">
+    <div class="my-3 p-3">
+      <h3>This is the profile page for {{user.username}}</h3>
+
+      {% if user_form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <div id="form_errors">
+          {% for key, value in user_form.errors.items %}
+          <strong>{{ value }}</strong>
+          {% endfor %}
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %}
+      <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="small mb-1">Username:</label>
+                {{ user_form.username }}
+                <label class="small mb-1">Email:</label>
+                {{ user_form.email }}
+              </div>
+              <div class="form-group">
+                <hr>
+                <img class="avatar" src="{% static  user.profile.avatar.url %}" />
+                <label class="small mb-1">Change Avatar:</label>
+                {{ profile_form.avatar }}
+              </div>
+              <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
+            </div>
+          </div>
+          <br><br>
+          <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+          <button type="reset" class="btn btn-outline-dark btn-lg">Reset</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="  chats">
+    <div class="my-3 p-3">
+
+
+      <h3>
+        Your Chats
+      </h3>
+
+
+      <div class="">
+
+
+        <ol>
+
+          {% for chat in chats %}
+
+          <li>
+            <a href="{%url 'chat'  chat.room_name %}">
+              {{chat.room_name | capfirst}}
+            </a> with:
+            <div class="chats ">
+              {% for user in chat.members.all %}
+              <div class="chat-members ">
+                <div class="avatar">
+                  <div class="status">
+                    {% if user.profile.is_online %}
+                    <span title="{{user}} is online" class="tooltip">
+
+                      <i class="material-icons md-dark md-18 ">face</i>
+                    </span>
+                    {% else %}
+                    <span title="{{user}} is offline" class="tooltip">
+
+                      <i class="material-icons md-dark md-18   md-inactive circle ">face</i>
+                    </span>
+                    {% endif %}
+                  </div>
+                </div>
+                <img src="{% static  user.profile.avatar.url %}" class="avatar circle  ">
+                <span class="chat-member col  s4">
+                  {{user}}
+                </span>
+              </div>
+              {% endfor %}
+
+            </div>
+          </li>
+
+          {% endfor %}
+        </ol>
+      </div>
+
+
+    </div>
+  </section>
+</div>
+
+{% endblock content %}

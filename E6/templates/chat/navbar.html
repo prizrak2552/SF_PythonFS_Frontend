@@ -1,20 +1,45 @@
-{% if request.user.is_authenticated %}
-<nav class="blue lighten-3">
-  <div class="nav-wrapper container">
-    <a href="{% url 'chats' %}" class="brand-logo">Chat</a>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a href="{% url 'profile' %}">{{ request.user.username }}</a></li>
-      <li><a href="{% url 'logout' %}"><i class="material-icons">power_settings_new</i></a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid  justify-content-between">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarColor01">
+      <a href="{% url 'main' %}" class="navbar-brand">Chat</a>
+
+    </div>
+    <div class="text-center text-light ">
+      <a href="{% url 'main' %}" class="text-white text-decoration-none ">
+        <h2 class="mx-auto">Chatroom</h2>
+      </a>
+      <p class="mx-auto">Basic messenger using Django Rest Framework and JavaScript</p>
+
+    </div>
+
+
+    <div class="d-flex">
+      {% if request.user.is_authenticated %}
+      <ul class="navbar-nav me-auto">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" href="#">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li> -->
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">{{ request.user.username }}</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+          </div>
+        </li>
+      </ul>
+
+      {% endif %}
+    </div>
   </div>
 </nav>
-
-{% else %}
-
-<div class="section blue lighten-3">
-  <div class="container white-text center-align text">
-    <h2>Chatroom</h2>
-    <p>Basic messenger using Django Rest Framework and JavaScript</p>
-  </div>
-</div>
-{% endif %}

@@ -1,44 +1,75 @@
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+import json
+from tkinter.messagebox import NO
+from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.http.response import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.http.response import JsonResponse
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from chat.models import Message
-from chat.forms import SignUpForm
-from chat.serializers import MessageSerializer  # , UserSerializer
-from .forms import UpdateUserForm, UpdateProfileForm
-from rest_framework import generics
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from api.models import Message, Room, Chat
+from api.serializers import MessageSerializer
 
 
-def index(request):
-    if request.user.is_authenticated:
-        return redirect('chats')
-    if request.method == 'GET':
-        return render(request, 'chat/login.html', {})
-    if request.method == "POST":
-        username, password = request.POST['username'], request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-        else:
-            return HttpResponse('{"error": "User does not exist"}')
-        return redirect('chats')
+def get_users(members):
+    users = set()
+    for member in members:
+        if(member):
+            user = User.objects.get(id=member)
+            users.add(user)
+    print(f"users: {users}")
+    return users
+
+
+def get_room(request, room_name):
+    if not Room.objects.filter(room_name=room_name).exists():
+        room = Room.objects.create(room_name=room_name, owner=request.user)
+    else:
+        room = Room.objects.get(room_name=room_name)
+
+    return room
+
+
+def get_chat(request, room_name, chat_name, members):
+    users = get_users(members)
+
+    room = Room.objects.get(room_name=room_name)
+    room.members.set(users)
+    if not Chat.objects.filter(chat_name=chat_name).exists():
+        chat = Chat.objects.create(
+            chat_name=chat_name, room=room)
+        chat.members.set(users)
+    else:
+        chat = Chat.objects.get(chat_name=chat_name)
+    return chat
+
+
+def main_view(request, room_name='common'):
+    if not request.user.is_authenticated:
+        return redirect('index')
+
+    room = get_room(request, room_name)
+    room.members.set(User.objects.all())
+    rooms = Room.objects.filter(room_name=room_name)
+    messages = Message.objects.filter(room__room_name=room_name)
+    if request.method == "GET":
+
+        return render(request, 'chat/chat.html',
+                      {'users': User.objects.all(),
+                       'messages': messages,
+                       'room_name': room_name,
+                       'room': room,
+                       'rooms': rooms,
+                       })
 
 
 @csrf_exempt
-# def message_list(request, sender=None, receiver=None):
-def message_list(request, sender=2, receiver=1):
+def message_list(request, sender=None, receiver=None):
     """
     List all required messages, or create a new message.
     """
     if request.method == 'GET':
         messages = Message.objects.filter(
-            sender_id=sender, receiver_id=receiver, is_read=False)
+            sender_id=sender, is_read=False)
         serializer = MessageSerializer(
             messages, many=True, context={'request': request})
         for message in messages:
@@ -55,79 +86,57 @@ def message_list(request, sender=2, receiver=1):
         return JsonResponse(serializer.errors, status=400)
 
 
-def register_view(request):
-    """
-    Render registration template
-    """
-    if request.method == 'POST':
-        print("working1")
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user.set_password(password)
-            user.save()
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('chats')
-    else:
-        print("working2")
-        form = SignUpForm()
-    template = 'chat/register.html'
-    context = {'form': form}
-    return render(request, template, context)
+def room_view(request):
+    print()
+    print('room_view')
+    print()
+    all_users = User.objects.all()
+    if request.method == "POST":
+        data = json.loads(request.body)
+        room_name = data.get("room_name")
+        print(f'room_name: {room_name}')
+        members = data.get("members")
+        print(f'members: {members}')
+        room = get_room(request, room_name)
+        users = get_users(members)
+        room.members.set(users)
+        room.save()
+        print(f'members: {members}')
+
+        return render(request, "chat/room.html",
+                      {
+                          'users': users,
+                          'room': room,
+                          'room_name': room_name,
+                      })
+    return render(request, 'chat/room.html', {
+        'users': all_users,
+    })
 
 
-def chat_view(request):
+@csrf_exempt
+def chat_view(request, room_name):
+    print()
+    print('chat_view')
+    print()
     if not request.user.is_authenticated:
         return redirect('index')
-    if request.method == "GET":
-        return render(request, 'chat/chat.html',
-                      {'users': User.objects.exclude(username=request.user.username)})
+    print(f'room_name: {room_name}')
 
+    rooms = Room.objects.all()
+    room = get_room(request, room_name)
 
-def message_view(request, sender, receiver):
-    if not request.user.is_authenticated:
-        return redirect('index')
-    if request.method == "GET":
-        return render(request, "chat/messages.html",
-                      {'users': User.objects.exclude(username=request.user.username),
-                       'receiver': User.objects.get(id=receiver),
-                       'messages': Message.objects.filter(sender_id=sender, receiver_id=receiver) |
-                       Message.objects.filter(sender_id=receiver, receiver_id=sender)})
-    # pass
-
-
-def logoutUser(request):
-    logout(request)
-    return HttpResponseRedirect('/')
-
-
-@login_required
-def profile(request):
-
-    # return render(request, 'users/profile.html')
-
-    if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(
-            request.POST, request.FILES, instance=request.user.profile)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='profile')
+    messages = Message.objects.filter(room__room_name=room_name)
+    if(room_name == 'common'):
+        users = User.objects.all()
     else:
-        user_form = UpdateUserForm(instance=request.user)
-        profile_form = UpdateProfileForm(instance=request.user.profile)
+        users = Room.objects.get(room_name=room_name).members.all()
 
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
-
-
-class MessageListCreate(generics.ListCreateAPIView):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
+    return render(request, "chat/chat.html",
+                  {
+                      'users': users,
+                      'rooms': rooms,
+                      'room': room,
+                      'messages': messages,
+                      'room_name': room_name,
+                  })

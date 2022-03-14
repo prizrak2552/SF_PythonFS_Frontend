@@ -2,52 +2,48 @@
 {% load static %}
 {% block title %}Login Page{% endblock title %}
 {% block styles %}
-<!--Import materialize.css-->
-<link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection" />
 
 {%endblock styles %}
 
 {% block content %}
 
 
-<div class="container">
-  <div class="row">
-    <div class="col s12 m8 l6 offset-m2 offset-l3">
-      <div class="section center-block">
-        <div>
-          {% block form %}
-          <h3>
-            Login
-          </h3>
-          <form id="login-form" class="form-group" method="post">
-            {% csrf_token %}
-            <div class="row">
-              <div class="input-field col s12">
-                <input name="username" id="id_username" type="text">
-                <label for="id_username">Username</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input name="password" id="id_password" type="password">
-                <label for="id_password">Password</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s8">
-                <a href="{% url 'register' %}">Register</a>
-              </div>
-              <div class="col s4">
-                <div class="right">
-                  <button class="btn blue waves-effect waves-light pull-s12">Login</button>
-                </div>
-              </div>
-            </div>
-          </form>
-          {% endblock %}
-        </div>
-      </div>
+
+
+{% block form %}
+
+<form id="login-form" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend>Login</legend>
+
+    <div class="form-group ">
+      <!-- <label for="exampleInputEmail1" class="form-label mt-4">Email address</label> -->
+      <input type="text" class="form-control" name="username" id="id_username" aria-describedby="loginHelp"
+        placeholder="Your login">
     </div>
-  </div>
-</div>
+    <div class="form-group">
+      <!-- <label for="exampleInputPassword1" class="form-label mt-4">Password</label> -->
+      <input type="password" class="form-control" name="password" id="id_password" placeholder="Password">
+      <small id="loginHelp" class="form-text text-muted">We'll never share your personal data with anyone
+        else.</small>
+    </div>
+    <div class="form-group d-flex justify-content-between">
+      <button type="submit" class="btn btn-primary">Login</button>
+      <a href="{% url 'register' %}">
+        <button type="button" class="btn btn-outline-primary">
+          Register
+
+        </button>
+      </a>
+    </div>
+  </fieldset>
+</form>
+
+
+
+{% endblock %}
+
+
+
 {% endblock %}

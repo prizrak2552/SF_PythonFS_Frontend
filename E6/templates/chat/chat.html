@@ -2,81 +2,82 @@
 {% load static %}
 {% block title %}Chat Page{% endblock title %}
 {% block styles %}
-<!--Import materialize.css-->
-<link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection" />
-
 {%endblock styles %}
-
+{% block script %}
+<script defer type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+{%endblock script %}
 
 {% block content %}
+<h1>
+  Chat Page
+</h1>
 
-<div class="section" style="height: 80vh">
+
+{{ room_name|json_script:"room-name" }}
+{{ room.id|json_script:"room-id" }}
+{{ user.username|json_script:"user" }}
+{{ user.id|json_script:"user-id" }}
+<div class="section py-5">
   <div class="row">
-    <div class="col s3">
-      <div class="card">
-        <div class="collection">
-          {% for user in users %}
-          <a href="{% url 'chat' request.user.id user.id %}" id="user{{ user.id }}" class="collection-item row">
-            <img src="{% static  user.profile.avatar.url %}" class="col s4">
-            <!-- <img src="https://i.pravatar.cc/50?img={{ user.id }}" class="col s4"> -->
-            <div class="col s8">
-              <span class="title" style="font-weight: bolder">{{ user.username }}</span>
+
+    <div class="col-3">
+      <div class="card p-3 ">
+        <ol>
+
+          {% for room in rooms %}
+          {% if request.user in room.members.all %}
+          <li>
+            <a href="{%url 'chat' room.room_name  %}">
+              {{room.room_name | capfirst}}
+            </a> with:
+            <div class="chats py-2">
+              {% for user in room.members.all %}
+              <div class="chat-members py-1">
+                <div class="avatar">
+                  <div class="status">
+                    {% if user.profile.is_online %}
+                    <i title="{{user}} is online" class="material-icons md-dark md-18 tooltip">face</i>
+                    {% else %}
+                    <i title="{{user}} is offline"
+                      class="material-icons md-dark md-18   md-inactive circle tooltip">face</i>
+                    {% endif %}
+                  </div>
+                </div>
+                <img id="{{user.id}}" src="{% static  user.profile.avatar.url %}" class="rounded-circle avatar col-2">
+                <span class="chat-member col-6">
+                  {{user}}
+                </span>
+
+              </div>
+              {% endfor %}
+
             </div>
-          </a>
+          </li>
+          {% endif %}
           {% endfor %}
-        </div>
+        </ol>
+
       </div>
     </div>
-    <div class="col s9">
-      <div class="card">
-        <div id="board" class="section grey lighten-3" style="height: 68vh; padding: 5px; overflow-y: scroll">
-          {% block messages %}
 
+    <div class="col-9">
+      <div class="card p-3 ">
+        <div class="" style="height: 75vh;">
+          {% block messages %}
+          {% include 'chat/messages.html'%}
           {% endblock %}
         </div>
-        <form id="chat-box" class="form-group {% block hide %}hide{% endblock %}" method="post">
-          {% csrf_token %}
-          <div class="row">
-            <div class="col s11">
-              <div class="input-field">
-                <input id="id_message" name="message" type="text" placeholder="Type your message..">
-              </div>
-            </div>
-            <div class="col s1" style="line-height: 80px">
-              <button class="btn btn-floating blue lighten-2 waves-effect waves-light"><i
-                  class="material-icons">send</i></button>
-            </div>
-          </div>
-        </form>
       </div>
     </div>
   </div>
 </div>
-{% load static %}
-<script src="{% static 'js/chat.js' %}"></script>
-<script>
-  // For receiving
-  sender_id = "{{ receiver.id }}"
-  receiver_id = "{{ request.user.id }}"
-
-  //For sending
-
-  scrolltoend()
-  document.querySelector('#chat-box').addEventListener('submit', function (event) {
-    event.preventDefault()
-    var message = document.querySelector('#id_message')
-    send('{{ request.user.username }}', '{{ receiver.username }}', message.value)
-    message.value = ''
-  })
-
-</script>
+<!-- {#% block hide %}hide{#% endblock %}"  -->
+<h3 class="my-5">
+  Create a new room
+</h3>
+<a href="{%url 'room'%}">
+  <div class="d-grid gap-2">
+    <button id="create-room" class="btn btn-lg btn-primary" type="submit">Create</button>
+  </div>
+</a>
 {% endblock %}
-<!-- $(function () {
-  scrolltoend()
-  $('#chat-box').on('submit', function (event) {
-    event.preventDefault()
-    var message = $('#id_message')
-    send('{{ request.user.username }}', '{{ receiver.username }}', message.val())
-    message.val('')
-  })
-}) -->
